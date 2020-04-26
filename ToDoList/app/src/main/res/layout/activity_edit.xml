@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.EditActivity"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/editInputTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="title"/>
+
+    <EditText
+        android:id="@+id/editInputContents"
+        android:layout_width="match_parent"
+        android:layout_height="383dp"
+        android:ems="10"
+        android:hint="Type here"
+        android:inputType="textMultiLine" />
+
+    <Button
+        android:id="@+id/edit_button"
+        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+        android:layout_width="132dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="154dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="169dp"
+        android:text="수정"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
+</LinearLayout>
