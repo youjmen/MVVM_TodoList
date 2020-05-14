@@ -10,8 +10,9 @@
         android:title="삭제"
         app:showAsAction="always"/>
     <item
-        android:id="@+id/deleteall"
-        android:title="전체삭제"
+        android:id="@+id/cancel_action"
+        android:title="취소"
         app:showAsAction="always"/>
+
 
 </menu>

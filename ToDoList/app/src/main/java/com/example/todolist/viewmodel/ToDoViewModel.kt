@@ -1,6 +1,7 @@
 package com.example.todolist.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -29,8 +30,6 @@ public class ToDoViewModel(application: Application) : AndroidViewModel(applicat
     fun update(todo: ToDo) {
        repository.update(todo)
 
-
-
     }
 
     fun delete(todo: ToDo) {
@@ -44,7 +43,8 @@ public class ToDoViewModel(application: Application) : AndroidViewModel(applicat
 
     }
     fun toggleCheckedState(todo: ToDo) {
-        todo.isChecked = !todo.isChecked
+
+        todo.checked = !todo.checked
         repository.update(todo)
     }
 

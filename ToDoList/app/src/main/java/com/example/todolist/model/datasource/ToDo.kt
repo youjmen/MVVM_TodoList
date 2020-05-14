@@ -13,6 +13,6 @@ data class ToDo (@PrimaryKey(autoGenerate = true) var id : Long?,
                 @ColumnInfo(name = "to_do_title")var postsTitle: String?,
                 @ColumnInfo(name = "written_date")var writtenDate : String?,
                 @ColumnInfo(name = "posts_content")var postsContent : String?,
-    @ColumnInfo(name = "is_checked")var isChecked : Boolean)  {
+    @ColumnInfo(name = "checked")var checked : Boolean)  {
     constructor(): this(null,"", "","",false)
 }

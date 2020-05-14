@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/deleteall"
-        android:title="전체삭제"
+        android:id="@+id/delete_mode"
+        android:title="삭제모드"
         app:showAsAction="always"/>
 
 </menu>
