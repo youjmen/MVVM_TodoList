@@ -47,6 +47,11 @@ public class ToDoViewModel(application: Application) : AndroidViewModel(applicat
         todo.checked = !todo.checked
         repository.update(todo)
     }
+    fun toggleDeleteCheckedState(todo: ToDo) {
+
+        todo.deleteChecked = !todo.deleteChecked
+        repository.update(todo)
+    }
 
 
 }

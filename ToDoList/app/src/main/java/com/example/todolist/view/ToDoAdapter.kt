@@ -23,7 +23,7 @@ class ToDoAdapter(private val context: Context,
 
 
     var deleteMode = false
-    var selectAll =false
+    var selectAll =0
 
     var todoItemClickListener = deleteModeClickListener
 
@@ -103,7 +103,11 @@ class ToDoAdapter(private val context: Context,
 
         holder.itemView.checkBox.setOnClickListener {
             Log.d("it works","ok")
-            todoItemClickListener.onCheckClicked(list[position])
+            todoItemClickListener.onCheckBoxClicked(list[position])
+        }
+        holder.itemView.delete_box.setOnClickListener {
+            todoItemClickListener.onDeleteBoxClicked(list[position])
+            Log.d("dd","df")
         }
 
         if(deleteMode){
@@ -113,6 +117,37 @@ class ToDoAdapter(private val context: Context,
             holder.binding.deleteBox.visibility=View.GONE
 
         }
+        if(selectAll==2) {
+
+            for (i in 0 until itemCount) {
+
+                todoItemClickListener.onDeleteBoxClicked(list[i])
+                holder.binding.model = list[position]
+
+            }
+            selectAll=0
+
+
+
+        }
+         else if(selectAll==1){
+
+
+
+            for (i in 0 until itemCount) {
+
+                todoItemClickListener.onDeleteBoxClicked(list[i])
+                holder.binding.model = list[position]
+            }
+
+
+        }
+
+
+
+
+
+}
 
 
 
@@ -120,20 +155,21 @@ class ToDoAdapter(private val context: Context,
 
 
 
-
-
-
-
-    }
 
      class ToDoViewHolder(var binding: TodoItemBinding) : RecyclerView.ViewHolder(binding.root)
+
 
 
 
     interface TodoItemClickListener {
         fun onDeleteClicked(todoItem: ToDo)
         fun onLongClicked()
-        fun onCheckClicked(todoItem: ToDo)
+        fun onCheckBoxClicked(todoItem: ToDo)
+        fun onDeleteBoxClicked(todoItem: ToDo)
+    }
+    interface selection{
+        fun selectAll()
+        fun cancelSelect()
     }
 
 

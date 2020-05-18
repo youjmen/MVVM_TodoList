@@ -18,7 +18,7 @@ class EditActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit)
         toDoViewModel = ViewModelProvider(this).get(ToDoViewModel::class.java)
-        val todos = ToDo(intent.getLongExtra("id",0),"","","",false)
+        val todos = ToDo(intent.getLongExtra("id",0),"","","",false,false)
 
         editInputTitle.setText(intent.getStringExtra("title"))
         editInputContents.setText(intent.getStringExtra("contents"))

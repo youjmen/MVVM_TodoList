@@ -2,6 +2,7 @@ package com.example.todolist.view
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -13,12 +14,14 @@ import com.example.todolist.model.datasource.ToDo
 import com.example.todolist.viewmodel.ToDoViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 
-class MainActivity : AppCompatActivity(), ToDoAdapter.TodoItemClickListener {
+class MainActivity : AppCompatActivity(), ToDoAdapter.TodoItemClickListener, ToDoAdapter.selection {
 
 
     private lateinit var toDoViewModel: ToDoViewModel
     var delete = false
+    var selectall = false
     private lateinit var todoAdapter: ToDoAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,10 +65,12 @@ class MainActivity : AppCompatActivity(), ToDoAdapter.TodoItemClickListener {
 
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        if(delete)
+        if(delete&&selectall)
+            menuInflater.inflate(R.menu.menu_selecteall_cancel,menu)
+        else if(delete)
             menuInflater.inflate(R.menu.menu_delete_mode, menu)
         else
-            menuInflater.inflate(R.menu.menu_delete, menu)
+            menuInflater.inflate(R.menu.menu_delete,menu)
         return true
     }
 
@@ -73,18 +78,22 @@ class MainActivity : AppCompatActivity(), ToDoAdapter.TodoItemClickListener {
         when (item.itemId) {
 
             R.id.delete_mode -> {
-
-                delete= !delete
-                todoAdapter.deleteMode=true
-                todoAdapter.notifyDataSetChanged()
-                invalidateOptionsMenu()
-
+                if(todoAdapter.list.isEmpty()){
+                    toast("지울 목록이 없습니다.")
+                }
+                else {
+                    delete = !delete
+                    todoAdapter.deleteMode = true
+                    todoAdapter.notifyDataSetChanged()
+                    invalidateOptionsMenu()
+                }
 
 
 
 
             }
             R.id.select_all->{
+                selectAll()
 
 
 
@@ -92,12 +101,19 @@ class MainActivity : AppCompatActivity(), ToDoAdapter.TodoItemClickListener {
             R.id.cancel_action->{
                 delete=!delete
                 todoAdapter.deleteMode=false
+                todoAdapter.selectAll=1
                 todoAdapter.notifyDataSetChanged()
+
 
                 invalidateOptionsMenu()
             }
             R.id.delete->{
-                toDoViewModel.deleteAll()
+                delete()
+
+
+            }
+            R.id.cancel_select->{
+                cancelSelect()
 
             }
         }
@@ -112,12 +128,41 @@ class MainActivity : AppCompatActivity(), ToDoAdapter.TodoItemClickListener {
         toDoViewModel.delete(todoItem)
     }
 
-    override fun onCheckClicked(todoItem: ToDo) {
+    override fun onCheckBoxClicked(todoItem: ToDo) {
         toDoViewModel.toggleCheckedState(todoItem)
+    }
+    override fun onDeleteBoxClicked(todoItem: ToDo) {
+        toDoViewModel.toggleDeleteCheckedState(todoItem)
     }
 
     override fun onLongClicked() {
        setDeleteMode()
+    }
+
+    override fun selectAll() {
+        todoAdapter.selectAll=2
+        selectall=!selectall
+
+        todoAdapter.notifyDataSetChanged()
+        invalidateOptionsMenu()
+
+    }
+    override fun cancelSelect(){
+        todoAdapter.selectAll=1
+        selectall=!selectall
+
+        todoAdapter.notifyDataSetChanged()
+        invalidateOptionsMenu()
+
+    }
+    fun delete(){
+        for(i in 0..todoAdapter.itemCount-1){
+            if(todoAdapter.list[i].deleteChecked){
+                toDoViewModel.delete(todoAdapter.list[i])
+            }
+
+        }
+
     }
 
 
