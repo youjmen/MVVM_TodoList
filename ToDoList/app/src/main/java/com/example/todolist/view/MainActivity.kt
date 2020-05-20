@@ -82,7 +82,9 @@ class MainActivity : AppCompatActivity(), ToDoAdapter.TodoItemClickListener, ToD
                     toast("지울 목록이 없습니다.")
                 }
                 else {
-                    delete = !delete
+                    delete =!delete
+                    todoAdapter.selectAll=1
+
                     todoAdapter.deleteMode = true
                     todoAdapter.notifyDataSetChanged()
                     invalidateOptionsMenu()
@@ -99,13 +101,7 @@ class MainActivity : AppCompatActivity(), ToDoAdapter.TodoItemClickListener, ToD
 
             }
             R.id.cancel_action->{
-                delete=!delete
-                todoAdapter.deleteMode=false
-                todoAdapter.selectAll=1
-                todoAdapter.notifyDataSetChanged()
-
-
-                invalidateOptionsMenu()
+                cancelDelete()
             }
             R.id.delete->{
                 delete()
@@ -132,7 +128,20 @@ class MainActivity : AppCompatActivity(), ToDoAdapter.TodoItemClickListener, ToD
         toDoViewModel.toggleCheckedState(todoItem)
     }
     override fun onDeleteBoxClicked(todoItem: ToDo) {
+        todoAdapter.selectAll=0
+
         toDoViewModel.toggleDeleteCheckedState(todoItem)
+    }
+
+    override fun checkDeleteTrue(todoItem: ToDo) {
+        toDoViewModel.toggleDeleteCheckedStateTrue(todoItem)
+
+
+
+    }
+
+    override fun checkDeleteFalse(todoItem: ToDo) {
+        toDoViewModel.toggleDeleteCheckedStateFalse(todoItem)
     }
 
     override fun onLongClicked() {
@@ -147,9 +156,22 @@ class MainActivity : AppCompatActivity(), ToDoAdapter.TodoItemClickListener, ToD
         invalidateOptionsMenu()
 
     }
+
+    override fun cancelDelete() {
+        delete=false
+        selectall=false
+        todoAdapter.deleteMode=false
+        todoAdapter.selectAll=1
+        todoAdapter.notifyDataSetChanged()
+
+
+        invalidateOptionsMenu()
+    }
     override fun cancelSelect(){
         todoAdapter.selectAll=1
+
         selectall=!selectall
+
 
         todoAdapter.notifyDataSetChanged()
         invalidateOptionsMenu()
@@ -162,7 +184,18 @@ class MainActivity : AppCompatActivity(), ToDoAdapter.TodoItemClickListener, ToD
             }
 
         }
+        selectall=false
+        delete=false
+        todoAdapter.deleteMode=false
+        todoAdapter.notifyDataSetChanged()
+        invalidateOptionsMenu()
 
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("[onPause]","executed")
+        cancelDelete()
     }
 
 

@@ -27,6 +27,7 @@ class ToDoAdapter(private val context: Context,
 
     var todoItemClickListener = deleteModeClickListener
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ToDoViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.todo_item, parent, false)
         val viewHolder = ToDoViewHolder(
@@ -118,27 +119,12 @@ class ToDoAdapter(private val context: Context,
 
         }
         if(selectAll==2) {
-
-            for (i in 0 until itemCount) {
-
-                todoItemClickListener.onDeleteBoxClicked(list[i])
-                holder.binding.model = list[position]
-
-            }
-            selectAll=0
-
-
-
+                todoItemClickListener.checkDeleteTrue(list[position])
+                holder.binding.deleteBox.isChecked = true
         }
          else if(selectAll==1){
-
-
-
-            for (i in 0 until itemCount) {
-
-                todoItemClickListener.onDeleteBoxClicked(list[i])
-                holder.binding.model = list[position]
-            }
+            todoItemClickListener.checkDeleteFalse(list[position])
+            holder.binding.deleteBox.isChecked = false
 
 
         }
@@ -166,10 +152,14 @@ class ToDoAdapter(private val context: Context,
         fun onLongClicked()
         fun onCheckBoxClicked(todoItem: ToDo)
         fun onDeleteBoxClicked(todoItem: ToDo)
+        fun checkDeleteTrue(todoItem: ToDo)
+        fun checkDeleteFalse(todoItem: ToDo)
     }
     interface selection{
         fun selectAll()
         fun cancelSelect()
+        fun cancelDelete()
+
     }
 
 
